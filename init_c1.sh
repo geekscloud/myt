@@ -11,7 +11,7 @@ echo_warn() { echo "\033[33m[WARN]\033[0m $1"; }
 
 echo_info ">>> 1. 开始安装必备软件包 (git, zsh, openssl)..."
 # 系统源已配置，直接安装
-apk add git zsh openssl curl htop ca-certificates docker-compose procps
+apk add git zsh vim openssl curl htop ca-certificates docker-compose procps
 
 echo_info ">>> 2. 停用魔云腾官方 OpenRC 服务..."
 for svc in mytsvr myt_sdk; do
@@ -62,5 +62,6 @@ echo " - Git 版本: $(git --version)"
 echo " - Zsh 版本: $(zsh --version)"
 echo " - OpenSSL:  $(openssl version)"
 echo " - 8001 端口: $(netstat -tunlp | grep 8001 || echo '已释放(OK)')"
+echo " - 增强工具: vim, docker-compose"
 echo "----------------------------------------------------"
 echo_warn "提示: 如需将默认 Shell 改为 zsh，请执行: sed -i 's/\/bin\/ash/\/bin\/zsh/g' /etc/passwd"
