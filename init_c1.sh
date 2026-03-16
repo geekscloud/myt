@@ -11,7 +11,7 @@ echo_warn() { echo "\033[33m[WARN]\033[0m $1"; }
 
 echo_info ">>> 1. 开始安装必备软件包 (git, zsh, openssl)..."
 # 系统源已配置，直接安装
-apk add git zsh openssl curl htop ca-certificates docker-compose
+apk add git zsh openssl curl htop ca-certificates docker-compose procps
 
 echo_info ">>> 2. 停用魔云腾官方 OpenRC 服务..."
 for svc in mytsvr myt_sdk; do
