@@ -30,23 +30,23 @@ do_clean() {
 do_oh_my_zsh() {
     echo_info "正在安装 Oh My Zsh..."
     apk add git zsh curl
-    
+
     # 自动化安装 OMZ (不进入交互 Shell，自动切换默认 Shell)
     sh -c "$(curl -fsSL https://raw.staticdn.net/robbyrussell/oh-my-zsh/master/tools/install.sh)" "" --unattended --keep-zshrc
-    
+
     # 设置 Zsh 路径常量 (针对 root 用户)
     ZSH_CUSTOM="/root/.oh-my-zsh/custom"
-    
+
     echo_info "安装插件: zsh-autosuggestions & zsh-syntax-highlighting..."
     git clone https://github.com/zsh-users/zsh-autosuggestions.git ${ZSH_CUSTOM}/plugins/zsh-autosuggestions || true
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM}/plugins/zsh-syntax-highlighting || true
-    
+
     # 修改 .zshrc 启用插件 (精准替换 plugins= 行)
     sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions zsh-syntax-highlighting)/g' /root/.zshrc
-    
+
     # 强制切换默认 Shell (Alpine 特色)
     sed -i 's/\/bin\/ash/\/bin\/zsh/g' /etc/passwd
-    
+
     echo_info "Oh My Zsh 安装配置完成！重启终端后生效。"
 }
 
@@ -56,7 +56,7 @@ do_rust_install() {
     mkdir -p /mmc/rustup/rustup /mmc/rustup/cargo
     [ -L "/root/.rustup" ] || ln -s /mmc/rustup/rustup /root/.rustup
     [ -L "/root/.cargo" ] || ln -s /mmc/rustup/cargo /root/.cargo
-    
+
     if ! grep -q "RUSTUP_HOME" /root/.zshrc; then
         cat >> /root/.zshrc <<EOF
 export RUSTUP_HOME=/root/.rustup
@@ -64,7 +64,7 @@ export CARGO_HOME=/root/.cargo
 export PATH=\$CARGO_HOME/bin:\$PATH
 EOF
     fi
-    
+
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --no-modify-path
     echo_info "Rust 安装完成！"
 }
